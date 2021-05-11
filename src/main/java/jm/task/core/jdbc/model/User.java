@@ -22,6 +22,13 @@ public class User {
 
     }
 
+    @Override
+    public String toString() {
+        return "User [name: " + getName() +
+                ", lastName: " + getLastName() +
+                ",age: " + getAge() + "]";
+    }
+
     public User(String name, String lastName, Byte age) {
         this.name = name;
         this.lastName = lastName;
