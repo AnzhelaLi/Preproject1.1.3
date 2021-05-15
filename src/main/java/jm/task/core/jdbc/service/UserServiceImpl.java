@@ -23,6 +23,14 @@ public class UserServiceImpl implements UserService {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+         } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 
@@ -33,7 +41,15 @@ public class UserServiceImpl implements UserService {
             ps = conn.prepareStatement(sql);
             ps.execute();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 
@@ -49,6 +65,14 @@ public class UserServiceImpl implements UserService {
             System.out.println("User с именем: " + name + " добавлен в базу данных");
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 
@@ -61,6 +85,14 @@ public class UserServiceImpl implements UserService {
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 
@@ -82,12 +114,19 @@ public class UserServiceImpl implements UserService {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         return listOfAllUsers;
     }
 
     public void cleanUsersTable() {
-        String sql = "DELETE FROM users";
+        String sql = "truncate table users";
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(sql);
@@ -101,6 +140,14 @@ public class UserServiceImpl implements UserService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
         }
     }
 }
