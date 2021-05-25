@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    Util util = new Util();
-    Connection conn = util.getConnection();
+
+    Connection conn = Util.getJdbcConn();
 
     public void createUsersTable() {
         PreparedStatement ps;
@@ -23,14 +23,6 @@ public class UserServiceImpl implements UserService {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-         } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
         }
     }
 
@@ -42,18 +34,11 @@ public class UserServiceImpl implements UserService {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
         }
     }
 
     public void saveUser(String name, String lastName, byte age) {
+
         PreparedStatement ps;
         String sql = "INSERT INTO users ( name, lastName, age ) VALUES ( ?, ?, ? ) ";
         try {
@@ -65,14 +50,6 @@ public class UserServiceImpl implements UserService {
             System.out.println("User с именем: " + name + " добавлен в базу данных");
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
         }
     }
 
@@ -85,24 +62,16 @@ public class UserServiceImpl implements UserService {
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
         }
     }
 
     public List<User> getAllUsers() {
-        Util util = new Util();
+
         List<User> listOfAllUsers = new ArrayList<>();
         String sql = "SELECT id, name, lastName, age FROM USERS";
         Statement statement = null;
         try {
-            statement = util.getConnection().createStatement();
+            statement = Util.getJdbcConn().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 User user = new User();
@@ -114,14 +83,7 @@ public class UserServiceImpl implements UserService {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
+        }
         return listOfAllUsers;
     }
 
@@ -140,14 +102,6 @@ public class UserServiceImpl implements UserService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
         }
     }
 }
