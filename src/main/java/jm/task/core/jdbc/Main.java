@@ -20,17 +20,6 @@ public class Main {
 
         u.cleanUsersTable();
         u.dropUsersTable();
-        try {
-            Util.getJdbcConn().close();
-        } catch (SQLException throwables) {
-            if (Util.getJdbcConn() == null) {
-                Util.getJdbcConn().close();
-            }
-            throwables.printStackTrace();
-        }
-        // реализуйте алгоритм здесь
-        if (Util.getJdbcConn() == null) {
-            System.out.println("Connection closed");
-        }
+        Util.closeConnection();
     }
 }
