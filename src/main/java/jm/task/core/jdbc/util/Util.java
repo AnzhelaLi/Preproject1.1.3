@@ -16,18 +16,14 @@ public class Util {
     private static String DB_USERNAME;
     private static String DB_PASSWORD;
     private static Util instance;
-    private static Statement jdbcStmnt; //instance1
     private static Connection conn;
-    private static String sql;
 
     private Util() {
 
         DB_DRIVER = "com.mysql.jdbc.Driver";
         DB_URL = "jdbc:mysql://localhost:3306/mydb?autoReconnect=true&useSSL=false";
         DB_USERNAME = "root";
-        DB_PASSWORD = "Melody305??!";
-        sql = "INSERT INTO users ( name, lastName, age ) VALUES ( ?, ?, ? ) ";
-        //jdbcPrS =
+        DB_PASSWORD = "password";
     }
 
     public static Util getInstance() {
