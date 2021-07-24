@@ -3,11 +3,7 @@ package jm.task.core.jdbc.util;
 import jm.task.core.jdbc.service.UserServiceImpl;
 
 import java.sql.*;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.Executor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class Util {
 
@@ -18,12 +14,13 @@ public class Util {
     private static Util instance;
     private static Connection conn;
 
+
     private Util() {
 
         DB_DRIVER = "com.mysql.jdbc.Driver";
         DB_URL = "jdbc:mysql://localhost:3306/mydb?autoReconnect=true&useSSL=false";
         DB_USERNAME = "root";
-        DB_PASSWORD = "password";
+        DB_PASSWORD = "Melody305??!";
     }
 
     public static Util getInstance() {

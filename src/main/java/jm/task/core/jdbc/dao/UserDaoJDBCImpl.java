@@ -31,7 +31,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 try {
                     preparedStatement.close();
                 } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+
                 }
             }
         }
@@ -50,7 +50,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 try {
                     preparedStatement.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+
                 }
             }
         }
@@ -74,7 +74,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 try {
                     preparedStatement.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+
                 }
             }
         }
@@ -94,7 +94,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 try {
                     preparedStatement.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+
                 }
             }
         }
@@ -102,11 +102,12 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         Statement statement = null;
+        ResultSet resultSet = null;
         List<User> listOfAllUsers = new ArrayList<>();
         String sql = "SELECT id, name, lastName, age FROM USERS";
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
@@ -121,8 +122,9 @@ public class UserDaoJDBCImpl implements UserDao {
             if (statement != null) {
                 try {
                     statement.close();
+                    resultSet.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+
                 }
             }
             return listOfAllUsers;
@@ -137,21 +139,15 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
-            getAllUsers();
-            int numberOfUsers = getAllUsers().size();
-            if (numberOfUsers == 0) {
-                System.out.println("Deleted all rows in the table successfully");
-            } else {
-                System.out.println("Что-то пошло не так");
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             if (preparedStatement != null) {
                 try {
                     preparedStatement.close();
+
                 } catch (SQLException e) {
-                    e.printStackTrace();
+
                 }
             }
         }
