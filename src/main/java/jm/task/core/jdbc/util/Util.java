@@ -40,9 +40,6 @@ public class Util {
         }
         return conn;
     }
-    public static void closeConnection() throws SQLException {
-            conn.close();
-    }
 }
 // реализуйте настройку соеденения с БД
 
