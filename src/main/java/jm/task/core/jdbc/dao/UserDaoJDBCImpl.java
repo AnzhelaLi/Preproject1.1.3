@@ -1,20 +1,23 @@
 package jm.task.core.jdbc.dao;
 
+
 import jm.task.core.jdbc.model.User;
-import jm.task.core.jdbc.util.Util;
+import jm.task.core.jdbc.util.CloseConnection;
+import jm.task.core.jdbc.util.SingltonLazyInit;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    //Connection connection = Util.getInstance().getConnection();
+
+    CloseConnection closeConn = new CloseConnection();
 
     public UserDaoJDBCImpl() {
     }
 
     public void createUsersTable() {
-        Connection connection = Util.getInstance().getConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         String sql = "CREATE TABLE IF NOT EXISTS users (id BIGINT not NULL AUTO_INCREMENT, " +
                 "name VARCHAR(20), " +
@@ -22,102 +25,75 @@ public class UserDaoJDBCImpl implements UserDao {
                 "age INTEGER, " +
                 "PRIMARY KEY (id))";
         try {
+            connection = SingltonLazyInit.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-                try {
-                    if (preparedStatement != null) {
-                        preparedStatement.close();
-                        connection.close();
-                    }
-                } catch (SQLException throwables) {
 
-                }
-            }
+            closeConn.free(preparedStatement, connection);
         }
-
+    }
 
     public void dropUsersTable() {
-        Connection connection = Util.getInstance().getConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         String sql = "DROP TABLE IF EXISTS users";
         try {
+            connection = SingltonLazyInit.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-                try {
-                    if (preparedStatement != null) {
-                        preparedStatement.close();
-                        connection.close();
-                    }
-                } catch (SQLException e) {
-
-                }
-            }
+            closeConn.free(preparedStatement, connection);
         }
-
+    }
 
     public void saveUser(String name, String lastName, byte age) {
-        Connection connection = Util.getInstance().getConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String sql = "INSERT INTO users ( name, lastName, age ) VALUES ( ?, ?, ? ) ";
+        String sql = "INSERT INTO USERS( NAME, LASTNAME, AGE ) VALUES ( ?, ?, ? ) ";
         try {
+            connection = SingltonLazyInit.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
             preparedStatement.executeUpdate();
-
             System.out.println("User с именем: " + name + " добавлен в базу данных");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-                try {
-                    if (preparedStatement != null) {
-                        preparedStatement.close();
-                        connection.close();
-                    }
-                } catch (SQLException e) {
-
-                }
-            }
+            closeConn.free(preparedStatement, connection);
         }
-
+    }
 
     public void removeUserById(long id) {
-        Connection connection = Util.getInstance().getConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String sql = "DELETE FROM users WHERE id = ?";
+        String sql = "DELETE FROM USERS WHERE ID = ?";
         try {
+            connection = SingltonLazyInit.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-                try {
-                    if (preparedStatement != null) {
-                        preparedStatement.close();
-                        connection.close();
-                    }
-                } catch (SQLException e) {
-
-                }
-            }
+            closeConn.free(preparedStatement, connection);
         }
-
+    }
 
     public List<User> getAllUsers() {
-        Connection connection = Util.getInstance().getConnection();
+        Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
         List<User> listOfAllUsers = new ArrayList<>();
         String sql = "SELECT id, name, lastName, age FROM USERS";
         try {
+            connection = SingltonLazyInit.getInstance().getCon();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -131,40 +107,25 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-                try {
-                    if (statement != null) {
-                        statement.close();
-                        resultSet.close();
-                        connection.close();
-                    }
-                } catch (SQLException e) {
-
-                }
-            }
-            return listOfAllUsers;
+            closeConn.free(resultSet, statement, connection);
         }
+        return listOfAllUsers;
+    }
 
     public void cleanUsersTable() {
-        Connection connection = Util.getInstance().getConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String sql = "truncate users";
-
+        String sql = "TRUNCATE USERS";
         try {
+            connection = SingltonLazyInit.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-                try {
-                    if (preparedStatement != null) {
-                        preparedStatement.close();
-                        connection.close();
-                    }
-                } catch (SQLException e) {
-
-                }
-            }
+            closeConn.free(preparedStatement, connection);
         }
     }
+}
 
 
