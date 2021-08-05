@@ -2,16 +2,13 @@ package jm.task.core.jdbc.dao;
 
 
 import jm.task.core.jdbc.model.User;
-import jm.task.core.jdbc.util.CloseConnection;
-import jm.task.core.jdbc.util.SingltonLazyInit;
+import jm.task.core.jdbc.util.Util;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-
-    CloseConnection closeConn = new CloseConnection();
 
     public UserDaoJDBCImpl() {
     }
@@ -25,14 +22,28 @@ public class UserDaoJDBCImpl implements UserDao {
                 "age INTEGER, " +
                 "PRIMARY KEY (id))";
         try {
-            connection = SingltonLazyInit.getInstance().getCon();
+            connection = Util.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-            closeConn.free(preparedStatement, connection);
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("PS closes an exception ..");
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                        System.out.println("Connection closed successfully");
+                    } catch (SQLException e) {
+                        System.out.println("connection closes an exception...");
+                    }
+                }
+            }
         }
     }
 
@@ -41,13 +52,28 @@ public class UserDaoJDBCImpl implements UserDao {
         PreparedStatement preparedStatement = null;
         String sql = "DROP TABLE IF EXISTS users";
         try {
-            connection = SingltonLazyInit.getInstance().getCon();
+            connection = Util.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closeConn.free(preparedStatement, connection);
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("PS closes an exception ..");
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                        System.out.println("Connection closed successfully");
+                    } catch (SQLException e) {
+                        System.out.println("connection closes an exception...");
+                    }
+                }
+            }
         }
     }
 
@@ -56,7 +82,7 @@ public class UserDaoJDBCImpl implements UserDao {
         PreparedStatement preparedStatement = null;
         String sql = "INSERT INTO USERS( NAME, LASTNAME, AGE ) VALUES ( ?, ?, ? ) ";
         try {
-            connection = SingltonLazyInit.getInstance().getCon();
+            connection = Util.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
@@ -66,7 +92,22 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closeConn.free(preparedStatement, connection);
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("PS closes an exception ..");
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                        System.out.println("Connection closed successfully");
+                    } catch (SQLException e) {
+                        System.out.println("connection closes an exception...");
+                    }
+                }
+            }
         }
     }
 
@@ -75,14 +116,29 @@ public class UserDaoJDBCImpl implements UserDao {
         PreparedStatement preparedStatement = null;
         String sql = "DELETE FROM USERS WHERE ID = ?";
         try {
-            connection = SingltonLazyInit.getInstance().getCon();
+            connection = Util.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closeConn.free(preparedStatement, connection);
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("PS closes an exception ..");
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                        System.out.println("Connection closed successfully");
+                    } catch (SQLException e) {
+                        System.out.println("connection closes an exception...");
+                    }
+                }
+            }
         }
     }
 
@@ -93,7 +149,7 @@ public class UserDaoJDBCImpl implements UserDao {
         List<User> listOfAllUsers = new ArrayList<>();
         String sql = "SELECT id, name, lastName, age FROM USERS";
         try {
-            connection = SingltonLazyInit.getInstance().getCon();
+            connection = Util.getInstance().getCon();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -107,7 +163,30 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            closeConn.free(resultSet, statement, connection);
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("ResultSet closes an exception ..");
+            } finally {
+                if (statement != null) {
+                    try {
+                        statement.close();
+                    } catch (SQLException e) {
+                        System.out.println("PreparedStatement closes an exception...");
+                    } finally {
+                        if (connection != null) {
+                            try {
+                                connection.close();
+                                System.out.println("Connection closed successfully");
+                            } catch (SQLException e) {
+                                System.out.println("connection closes an exception ..");
+                            }
+                        }
+                    }
+                }
+            }
         }
         return listOfAllUsers;
     }
@@ -117,13 +196,28 @@ public class UserDaoJDBCImpl implements UserDao {
         PreparedStatement preparedStatement = null;
         String sql = "TRUNCATE USERS";
         try {
-            connection = SingltonLazyInit.getInstance().getCon();
+            connection = Util.getInstance().getCon();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closeConn.free(preparedStatement, connection);
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("PS closes an exception ..");
+            } finally {
+                if (connection != null) {
+                    try {
+                        connection.close();
+                        System.out.println("Connection closed successfully");
+                    } catch (SQLException e) {
+                        System.out.println("connection closes an exception...");
+                    }
+                }
+            }
         }
     }
 }

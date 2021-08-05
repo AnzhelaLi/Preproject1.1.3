@@ -4,28 +4,28 @@ package jm.task.core.jdbc.util;
 import java.sql.*;
 
 
-public class SingltonLazyInit {
+public class Util {
 
     private static String DB_DRIVER;
     private static String DB_URL;
     private static String DB_USERNAME;
     private static String DB_PASSWORD;
     private static Connection conn;
-    private static SingltonLazyInit instance;
+    private static Util instance;
 
-    private SingltonLazyInit() {
+    private Util() {
         DB_DRIVER = "com.mysql.jdbc.Driver";
         DB_URL = "jdbc:mysql://localhost:3306/mydb?useSSL=false";
         DB_USERNAME = "root";
         DB_PASSWORD = "Melody305??!";
     }
 
-    public static SingltonLazyInit getInstance() {
+    public static Util getInstance() {
         try {
             if (instance == null) {
-                synchronized (SingltonLazyInit.class) {
+                synchronized (Util.class) {
                     if (instance == null) {
-                        instance = new SingltonLazyInit();
+                        instance = new Util();
                     }
                 }
                 System.out.println("Instance");
