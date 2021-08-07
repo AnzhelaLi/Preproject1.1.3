@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class UserDaoJDBCImpl implements UserDao {
 
     public UserDaoJDBCImpl() {
@@ -31,18 +32,13 @@ public class UserDaoJDBCImpl implements UserDao {
             try {
                 if (preparedStatement != null) {
                     preparedStatement.close();
+                    System.out.println("PreparedStatement closed successfully");
+                }
+                if (connection != null) {
+                    connection.close();
+                    System.out.println("Connection closed successfully");
                 }
             } catch (SQLException e) {
-                System.out.println("PS closes an exception ..");
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close();
-                        System.out.println("Connection closed successfully");
-                    } catch (SQLException e) {
-                        System.out.println("connection closes an exception...");
-                    }
-                }
             }
         }
     }
@@ -61,18 +57,13 @@ public class UserDaoJDBCImpl implements UserDao {
             try {
                 if (preparedStatement != null) {
                     preparedStatement.close();
+                    System.out.println("PreparedStatement closed successfully");
+                }
+                if (connection != null) {
+                    connection.close();
+                    System.out.println("Connection closed successfully");
                 }
             } catch (SQLException e) {
-                System.out.println("PS closes an exception ..");
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close();
-                        System.out.println("Connection closed successfully");
-                    } catch (SQLException e) {
-                        System.out.println("connection closes an exception...");
-                    }
-                }
             }
         }
     }
@@ -95,18 +86,13 @@ public class UserDaoJDBCImpl implements UserDao {
             try {
                 if (preparedStatement != null) {
                     preparedStatement.close();
+                    System.out.println("PreparedStatement closed successfully");
+                }
+                if (connection != null) {
+                    connection.close();
+                    System.out.println("Connection closed successfully");
                 }
             } catch (SQLException e) {
-                System.out.println("PS closes an exception ..");
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close();
-                        System.out.println("Connection closed successfully");
-                    } catch (SQLException e) {
-                        System.out.println("connection closes an exception...");
-                    }
-                }
             }
         }
     }
@@ -126,18 +112,13 @@ public class UserDaoJDBCImpl implements UserDao {
             try {
                 if (preparedStatement != null) {
                     preparedStatement.close();
+                    System.out.println("PreparedStatement closed successfully");
+                }
+                if (connection != null) {
+                    connection.close();
+                    System.out.println("Connection closed successfully");
                 }
             } catch (SQLException e) {
-                System.out.println("PS closes an exception ..");
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close();
-                        System.out.println("Connection closed successfully");
-                    } catch (SQLException e) {
-                        System.out.println("connection closes an exception...");
-                    }
-                }
             }
         }
     }
@@ -166,26 +147,17 @@ public class UserDaoJDBCImpl implements UserDao {
             try {
                 if (resultSet != null) {
                     resultSet.close();
+                    System.out.println("ResultSet closed successfully");
+                }
+                if (statement != null) {
+                    statement.close();
+                    System.out.println("PreparedStatement closed successfully");
+                }
+                if (connection != null) {
+                    connection.close();
+                    System.out.println("Connection closed successfully");
                 }
             } catch (SQLException e) {
-                System.out.println("ResultSet closes an exception ..");
-            } finally {
-                if (statement != null) {
-                    try {
-                        statement.close();
-                    } catch (SQLException e) {
-                        System.out.println("PreparedStatement closes an exception...");
-                    } finally {
-                        if (connection != null) {
-                            try {
-                                connection.close();
-                                System.out.println("Connection closed successfully");
-                            } catch (SQLException e) {
-                                System.out.println("connection closes an exception ..");
-                            }
-                        }
-                    }
-                }
             }
         }
         return listOfAllUsers;
@@ -205,18 +177,13 @@ public class UserDaoJDBCImpl implements UserDao {
             try {
                 if (preparedStatement != null) {
                     preparedStatement.close();
+                    System.out.println("PreparedStatement closed successfully");
+                }
+                if (connection != null) {
+                    connection.close();
+                    System.out.println("Connection closed successfully");
                 }
             } catch (SQLException e) {
-                System.out.println("PS closes an exception ..");
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close();
-                        System.out.println("Connection closed successfully");
-                    } catch (SQLException e) {
-                        System.out.println("connection closes an exception...");
-                    }
-                }
             }
         }
     }
